@@ -29,3 +29,15 @@ ejercicioRouter.patch("/:id", async (req,res) => {
     })
     res.status(200).send(ejercicioActuliazado);
 })
+
+/**
+ *  * ENDPOINT get: para listar un ejercicio en concreto por id
+ */
+ejercicioRouter.get("/:id", async (req,res) => {
+    const ejercicio = await ejercicioModel.findById({ _id: req.params.id })
+    if (ejercicio) {
+        res.status(200).send(ejercicio);
+    } else {
+        res.status(400).send("El ejercicio no existe :(");
+    }
+})
