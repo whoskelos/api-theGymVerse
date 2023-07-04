@@ -1,13 +1,12 @@
 {
   "name": "api-thegymverse",
   "version": "1.0.0",
-  "description": "Api para consumir los datos de mongoDB y Vimeo para la app theGymVerse",
+  "description": "Api para consumir los datos de mongoDB Atlas para la app theGymVerse",
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.js",
-    "test": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "author": "whoskelos",
   "license": "ISC",

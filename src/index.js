@@ -8,11 +8,14 @@ const app = express()
 //Middlewares
 import mongoose from './database.js';
 import 'dotenv/config';
-app.use(cors())
+// Habilitar CORS para todas las rutas
+app.use(cors());
+
 const port = process.env.PORT || 3000;
 
 app.use(express.json())
 app.use("/api/ejercicios",ejercicioRouter);
 
-app.listen(port, () => console.error('Servidor iniciado'));
+app.listen(port);
+console.log('Servidor iniciado en el puerto ', port);
 
