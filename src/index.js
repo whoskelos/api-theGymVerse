@@ -14,5 +14,5 @@ const port = process.env.PORT || 3000;
 app.use(express.json())
 app.use("/api/ejercicios",ejercicioRouter);
 
-app.listen(port, () => console.error('Servidor iniciado'));
+app.listen(port, () => console.log('Servidor iniciado'));
 
