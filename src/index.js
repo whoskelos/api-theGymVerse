@@ -6,7 +6,7 @@ import cors from "cors";
 const app = express();
 
 //Middlewares
-import mongoose from "./database/database.js";
+import mongoose from "./database/database.js"; //don't delete this import
 import "dotenv/config";
 // Habilitar CORS para todas las rutas
 app.use(cors());
