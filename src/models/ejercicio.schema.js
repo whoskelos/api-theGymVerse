@@ -2,19 +2,11 @@ import mongoose from "mongoose";
 
 export const ejercicioSchema = mongoose.Schema(
     {
-        nombre: {
+        name: {
             type: String,
             required: true,
         },
-        descripcion: {
-            type: String,
-            required: true,
-        },
-        categoria: {
-            type: String,
-            required: true,
-        },
-        zonaMuscular: {
+        muscle: {
             type: String,
             required: true,
         },
@@ -22,16 +14,26 @@ export const ejercicioSchema = mongoose.Schema(
             type: Number,
             required: true,
         },
-        repeticiones: {
+        reps: {
             type: Number,
+            required: true,
+        },
+        weight: {
+            type: Number,
+        },
+        date: {
+            type: Date,
             required: true,
         },
         videoURL: {
             type: String,
-            required: true,
         },
-        imagen: {
+        image: {
             type: String,
+        },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "user",
             required: true,
         },
     },

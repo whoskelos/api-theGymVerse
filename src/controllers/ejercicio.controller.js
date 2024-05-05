@@ -1,30 +1,52 @@
-import * as ejercicioService from "../services/ejercicio.service.js";
+import { ejercicioModel } from "../models/model.js";
 
 export const getEjercicios = async (req, res) => {
-    const ejercicios = await ejercicioService.getEjercicios();
-    res.send({status: "success", data: ejercicios});
+    const ejercicios = await ejercicioModel
+        .find({
+            user: req.user.id,
+        })
+        .populate("user");
+    res.json(ejercicios);
 };
 
-export const getEjercicioById = (req, res) => {
-    const ejercicio = ejercicioService.getEjercicioById();
-    if (ejercicio) {
-        res.status(200).send(ejercicio);
-    } else {
-        res.status(400).send("El ejercicio no existe :(");
-    }
+export const getEjercicioById = async (req, res) => {
+    const exercise = await ejercicioModel
+        .findById(req.params.id)
+        .populate("user");
+    if (!exercise)
+        return res.status(404).json({ message: "Exercise not found" });
+    res.json(exercise);
 };
 
-export const crearNuevoEjercicio = (req, res) => {
-    const ejercicioCreado = ejercicioService.crearNuevoEjercicio();
-    res.status(201).send(ejercicioCreado);
+export const crearNuevoEjercicio = async (req, res) => {
+    const { name, muscle, series, reps, weight, date } = req.body;
+    const newExercise = new ejercicioModel({
+        name,
+        muscle,
+        series,
+        reps,
+        weight,
+        date,
+        user: req.user.id,
+    });
+    const savedExercise = await newExercise.save();
+    res.json(savedExercise);
 };
 
-export const editarEjercicio = (req, res) => {
-    const ejercicioActuliazado = ejercicioService.editarEjercicio();
-    res.status(200).send(ejercicioActuliazado);
+export const editarEjercicio = async (req, res) => {
+    const ejercicioActualizado = await ejercicioModel.findOneAndUpdate(
+        { _id: req.params.id },
+        req.body,
+        {
+            new: true,
+        }
+    );
+    res.json(ejercicioActualizado);
 };
 
-export const eliminarEjercicio = (req, res) => {
-    const result = ejercicioService.eliminarEjercicio();
-    res.send(result);
+export const eliminarEjercicio = async (req, res) => {
+    const exercise = await ejercicioModel.findByIdAndDelete(req.params.id);
+    if (!exercise)
+        return res.status(404).json({ message: "Exercise not found" });
+    res.sendStatus(204);
 };
