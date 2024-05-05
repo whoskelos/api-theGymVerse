@@ -2,7 +2,7 @@ import express from "express";
 import v1EjercicioRouter from "./v1/routes/ejercicio.routes.js";
 import v1AuthRoutes from "./v1/routes/auth.routes.js";
 import cors from "cors";
-
+import cookieParser from "cookie-parser";
 // Creamos el servidor
 const app = express();
 
@@ -11,6 +11,7 @@ import mongoose from "./database/database.js"; //don't delete this import
 import "dotenv/config";
 // Habilitar CORS para todas las rutas
 app.use(cors());
+app.use(cookieParser())
 
 const port = process.env.PORT || 3000;
 
