@@ -7,6 +7,8 @@ import {
     getEjercicios,
 } from "../../controllers/ejercicio.controller.js";
 import { authRequired } from "../../middlewares/validateToken.js";
+import { validateSchema } from "../../middlewares/validator.middleware.js";
+import { createExerciseSchema } from "../../schemas/exercise.schema.js";
 const ejercicioRouter = express.Router(); // exportamos el router
 
 /*
@@ -18,7 +20,12 @@ ejercicioRouter.get("/", authRequired, getEjercicios);
 /*
  * * ENDPOINT post: para crear un nuevo ejercicio
  */
-ejercicioRouter.post("/", authRequired, crearNuevoEjercicio);
+ejercicioRouter.post(
+    "/",
+    authRequired,
+    validateSchema(createExerciseSchema),
+    crearNuevoEjercicio
+);
 
 /*
  * * ENDPOINT patch: para editar un ejercicio
