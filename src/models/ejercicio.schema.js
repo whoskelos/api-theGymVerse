@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { string } from "zod";
 
 export const ejercicioSchema = mongoose.Schema(
     {
@@ -10,20 +11,31 @@ export const ejercicioSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        series: {
-            type: Number,
+        sets: {
+            type: [
+                {
+                    serie: {
+                        type: Number,
+                        required: true,
+                    },
+                    reps: {
+                        type: Number,
+                        required: true,
+                    },
+                    weight: {
+                        type: Number,
+                        required: true,
+                    },
+                },
+            ],
             required: true,
-        },
-        reps: {
-            type: Number,
-            required: true,
-        },
-        weight: {
-            type: Number,
+            default: [],
         },
         date: {
-            type: Date,
-            required: true,
+            type: String,
+        },
+        comment: {
+            type: String,
         },
         videoURL: {
             type: String,

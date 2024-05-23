@@ -19,14 +19,14 @@ export const getEjercicioById = async (req, res) => {
 };
 
 export const crearNuevoEjercicio = async (req, res) => {
-    const { name, muscle, series, reps, weight, date } = req.body;
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    const { name, muscle, sets, date } = req.body;
     const newExercise = new ejercicioModel({
         name,
         muscle,
-        series,
-        reps,
-        weight,
-        date,
+        sets,
+        date: date || fechaFormateada,
         user: req.user.id,
     });
     const savedExercise = await newExercise.save();
