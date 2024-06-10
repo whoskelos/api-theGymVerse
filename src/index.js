@@ -10,8 +10,24 @@ const app = express();
 import mongoose from "./database/database.js"; //don't delete this import
 import "dotenv/config";
 // Habilitar CORS para todas las rutas
-app.use(cors());
-app.use(cookieParser())
+const whitelist = [
+    "https://the-gym-verse-v-2.vercel.app",
+    "http://localhost:5173",
+    "https://gym.kelvinguerrero.dev",
+];
+app.use(
+    cors({
+        origin: function (origin, callback) {
+            if (whitelist.indexOf(origin) !== -1) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
+        credentials: true,
+    })
+);
+app.use(cookieParser());
 
 const port = process.env.PORT || 3000;
 
