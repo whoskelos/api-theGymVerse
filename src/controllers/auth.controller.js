@@ -5,6 +5,10 @@ import { createAccessToken } from "../libs/jwt.js";
 export const register = async (req, res) => {
     const { email, password, username } = req.body;
     try {
+        const userNameDuplicated = await userModel.findOne({ username });
+        if (userNameDuplicated) {
+            return res.status(400).json({ error: ["This username already exists"] });
+        }
         const passwordHash = await bcrypt.hash(password, 10);
 
         const newUser = new userModel({
@@ -24,7 +28,7 @@ export const register = async (req, res) => {
             updatedAt: userSaved.updatedAt,
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: [error.message] });
     }
 };
 export const login = async (req, res) => {
@@ -33,11 +37,11 @@ export const login = async (req, res) => {
         const userFound = await userModel.findOne({ email });
 
         if (!userFound)
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ error: ["User not found"] });
         const isMatch = await bcrypt.compare(password, userFound.password);
 
         if (!isMatch)
-            return res.status(400).json({ message: "Incorrect password" });
+            return res.status(400).json({ error: ["Incorrect password"] });
 
         const token = await createAccessToken({ id: userFound._id });
         res.cookie("token", token);
@@ -49,7 +53,7 @@ export const login = async (req, res) => {
             updatedAt: userFound.updatedAt,
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: [error.message] });
     }
 };
 
@@ -62,7 +66,7 @@ export const logout = (req, res) => {
 
 export const profile = async (req, res) => {
     const userFound = await userModel.findById(req.user.id);
-    if (!userFound) return res.status(400).json({ message: "User not found" });
+    if (!userFound) return res.status(400).json({ error: ["User not found"] });
 
     return res.json({
         id: userFound._id,
