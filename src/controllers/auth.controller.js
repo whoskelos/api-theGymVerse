@@ -6,8 +6,12 @@ export const register = async (req, res) => {
     const { email, password, username } = req.body;
     try {
         const userNameDuplicated = await userModel.findOne({ username });
+        const emailDuplicated = await userModel.findOne({ email });
         if (userNameDuplicated) {
             return res.status(400).json({ error: ["This username already exists"] });
+        }
+        if (emailDuplicated) {
+            return res.status(400).json({ error: ["This email already exists"] });
         }
         const passwordHash = await bcrypt.hash(password, 10);
 
