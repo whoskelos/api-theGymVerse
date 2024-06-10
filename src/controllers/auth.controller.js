@@ -8,10 +8,14 @@ export const register = async (req, res) => {
         const userNameDuplicated = await userModel.findOne({ username });
         const emailDuplicated = await userModel.findOne({ email });
         if (userNameDuplicated) {
-            return res.status(400).json({ error: ["This username already exists"] });
+            return res
+                .status(400)
+                .json({ error: ["This username already exists"] });
         }
         if (emailDuplicated) {
-            return res.status(400).json({ error: ["This email already exists"] });
+            return res
+                .status(400)
+                .json({ error: ["This email already exists"] });
         }
         const passwordHash = await bcrypt.hash(password, 10);
 
@@ -23,7 +27,7 @@ export const register = async (req, res) => {
 
         const userSaved = await newUser.save();
         const token = await createAccessToken({ id: userSaved._id });
-        res.cookie("token", token);
+        res.cookie("token", token, { sameSite: "none", secure: true });
         res.json({
             id: userSaved._id,
             username: userSaved.username,
@@ -48,7 +52,7 @@ export const login = async (req, res) => {
             return res.status(400).json({ error: ["Incorrect password"] });
 
         const token = await createAccessToken({ id: userFound._id });
-        res.cookie("token", token);
+        res.cookie("token", token, { sameSite: "none", secure: true });
         res.json({
             id: userFound._id,
             username: userFound.username,
