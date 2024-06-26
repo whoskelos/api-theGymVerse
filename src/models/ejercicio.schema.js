@@ -15,15 +15,15 @@ export const ejercicioSchema = mongoose.Schema(
             type: [
                 {
                     serie: {
-                        type: Number,
+                        type: String,
                         required: true,
                     },
                     reps: {
-                        type: Number,
+                        type: String,
                         required: true,
                     },
                     weight: {
-                        type: Number,
+                        type: String,
                         required: true,
                     },
                 },

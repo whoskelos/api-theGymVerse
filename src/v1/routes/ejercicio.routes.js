@@ -23,7 +23,6 @@ ejercicioRouter.get("/", authRequired, getEjercicios);
 ejercicioRouter.post(
     "/",
     authRequired,
-    validateSchema(createExerciseSchema),
     crearNuevoEjercicio
 );
 

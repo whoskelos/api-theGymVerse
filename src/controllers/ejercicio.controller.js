@@ -21,7 +21,15 @@ export const getEjercicioById = async (req, res) => {
 export const crearNuevoEjercicio = async (req, res) => {
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
-    const { name, muscle, sets, date } = req.body;
+    const { name, muscle, set, reps, weight, date } = req.body;
+    //construimos el set
+    const sets = [
+        {
+            serie: set,
+            reps,
+            weight
+        }
+    ]
     const newExercise = new ejercicioModel({
         name,
         muscle,
@@ -29,8 +37,8 @@ export const crearNuevoEjercicio = async (req, res) => {
         date: date || fechaFormateada,
         user: req.user.id,
     });
-    const savedExercise = await newExercise.save();
-    res.json(savedExercise);
+    await newExercise.save();
+    res.status(200).json({status: "success", message: "Exercise created successfully"});
 };
 
 export const editarEjercicio = async (req, res) => {
