@@ -1,19 +1,21 @@
 import express from "express";
-import v1EjercicioRouter from "./v1/routes/ejercicio.routes.js";
+import v1WorkoutRouter from "./v1/routes/workout.routes.js";
 import v1AuthRoutes from "./v1/routes/auth.routes.js";
+import v1ExerciseRoutes from "./v1/routes/exercise.routes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 // Creamos el servidor
 const app = express();
 
 //Middlewares
-import mongoose from "./database/database.js"; //don't delete this import
+import mongoose from "./database/database.js"; //!!don't delete this import
 import "dotenv/config";
 // Habilitar CORS para todas las rutas
 const whitelist = [
     "https://the-gym-verse-v-2.vercel.app",
     "http://localhost:5173",
     "https://gym.kelvinguerrero.dev",
+    "http://localhost"
 ];
 app.use(
     cors({
@@ -27,12 +29,14 @@ app.use(
         credentials: true,
     })
 );
+// app.use(cors())
 app.use(cookieParser());
 
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use("/api/v1/ejercicios", v1EjercicioRouter);
+app.use("/api/v1/workouts", v1WorkoutRouter);
+app.use("/api/v1/exercises", v1ExerciseRoutes);
 app.use("/api/v1/auth", v1AuthRoutes);
 
 app.listen(port);

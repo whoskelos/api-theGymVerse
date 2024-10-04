@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-import { string } from "zod";
 
-export const ejercicioSchema = mongoose.Schema(
+export const workoutSchema = mongoose.Schema(
     {
         name: {
             type: String,
@@ -9,12 +8,11 @@ export const ejercicioSchema = mongoose.Schema(
         },
         muscle: {
             type: String,
-            required: true,
         },
         sets: {
             type: [
                 {
-                    serie: {
+                    set: {
                         type: String,
                         required: true,
                     },
