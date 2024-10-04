@@ -136,3 +136,5 @@ fly.toml
 .dockerignore
 nginx.conf
 pnpm-lock.yaml
+package-lock.json
+.idx/dev.nix
